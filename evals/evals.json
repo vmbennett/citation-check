@@ -1,0 +1,57 @@
+{
+ "skill_name": "citation-check",
+ "evals": [
+  {
+   "id": 0,
+   "prompt": "I've got a short draft at mini-manuscript.docx. Can you download all the papers it cites, confirm each one actually says what we attribute to it, fix the reference list, and make any changes to the text as tracked changes? A spreadsheet of what you found would be great.",
+   "expected_output": "A new .docx (original untouched) with tracked changes on the text: the Schmalensee (1981) attribution flagged as unsupported and fixed; the Lieberman & Montgomery preannouncement claim corrected; the Camuffo termination claim softened or re-cited; Nanda & Rhodes-Kropf updated to the published 2016 version; the reference list completed with volumes and pages. A spreadsheet with one row per claim and verdicts. PDFs of the open-access papers (Kerr et al. JEP, Schmalensee MIT WP, Nanda & Rhodes-Kropf NBER) saved. A summary that separates what was changed from what is only flagged.",
+   "files": [
+    "evals/fixtures/mini-manuscript.docx"
+   ],
+   "expectations": [
+    "The original mini-manuscript.docx in the outputs is byte-identical to the fixture (the input was not modified in place)",
+    "A new .docx was produced that opens with python-docx and contains Word tracked changes (w:ins or w:del elements)",
+    "The Schmalensee (1981) attribution ('experiments reveal market opportunities ... induce entry') was changed or re-cited, and the change is a tracked change rather than a silent edit",
+    "The Lieberman & Montgomery (1988) preannouncement sentence was corrected or its citation changed, visible as a tracked change",
+    "The reference list in the new .docx gives volume and pages for Barney (1986) (32: 1231-1241) and updates Nanda & Rhodes-Kropf to the published 2016 version (Innovation Policy and the Economy, 16: 1-23), with the in-text year changed to 2016",
+    "A spreadsheet (.xlsx) exists with at least one row per attributed claim (6 or more rows) and a verdict column, and Schmalensee is marked NOT SUPPORTED",
+    "At least one valid PDF of a cited paper was downloaded from a legitimate source (e.g., Kerr et al. JEP, Schmalensee MIT working paper, Nanda & Rhodes-Kropf NBER) into an output folder",
+    "summary.md separates changes that were made from items that are only flagged, and says which version (published, preprint, abstract) each contested paper was checked against"
+   ]
+  },
+  {
+   "id": 1,
+   "prompt": "Can you verify the citations in mini-manuscript.tex (the bib is refs.bib)? I want to know whether each paper really supports the claim it's cited for, get the bib entries corrected with volumes and pages, and get a candidate version of the tex that I can diff against mine.",
+   "expected_output": "Candidate mini-manuscript_citecheck.tex and refs_citecheck.bib (originals unchanged) plus a unified diff. The .bib entries completed (volumes/pages), nanda2015 converted to the published 2016 article. The Schmalensee sentence and the Lieberman & Montgomery preannouncement sentence corrected in the candidate .tex. A spreadsheet of verdicts and a summary listing each change with its reason.",
+   "files": [
+    "evals/fixtures/mini-manuscript.tex",
+    "evals/fixtures/refs.bib"
+   ],
+   "expectations": [
+    "The original mini-manuscript.tex and refs.bib in the outputs are byte-identical to the fixtures (not modified in place)",
+    "Candidate copies of the .tex and .bib exist (separately named files) together with a unified diff file against the originals",
+    "In the candidate .bib, barney1986 has volume 32 and pages 1231--1241, and the nanda entry is converted to the published 2016 article in Innovation Policy and the Economy, volume 16",
+    "In the candidate .tex, the sentence attributing 'experiments reveal market opportunities and induce entry' to \\citet{schmalensee1981} is changed or re-cited, and the Lieberman & Montgomery preannouncement sentence is corrected",
+    "A spreadsheet (.xlsx) exists with a verdict per attributed claim and Schmalensee marked NOT SUPPORTED",
+    "summary.md lists each change with its reason so the diff can be read alongside it",
+    "At least one valid PDF of a cited paper was downloaded from a legitimate source"
+   ]
+  },
+  {
+   "id": 2,
+   "prompt": "Before I send mini-manuscript.docx to my coauthor, can you check whether the papers it cites actually say what we say they say? I just want the spreadsheet and a summary \u2014 please don't edit the document.",
+   "expected_output": "A spreadsheet and summary only; no edited manuscript produced. Schmalensee flagged NOT SUPPORTED, Lieberman & Montgomery and Camuffo flagged PARTLY SUPPORTED with the reason, Nanda & Rhodes-Kropf's year/venue flagged, the rest supported. The summary recommends specific fixes without applying them.",
+   "files": [
+    "evals/fixtures/mini-manuscript.docx"
+   ],
+   "expectations": [
+    "No edited or new manuscript .docx was produced; the only .docx in the outputs is the unmodified copy of the input",
+    "A spreadsheet (.xlsx) exists with at least 6 claim rows and a verdict column",
+    "Schmalensee (1981) is marked NOT SUPPORTED, and the Lieberman & Montgomery preannouncement claim is marked PARTLY SUPPORTED or NOT SUPPORTED with the reason given",
+    "The Nanda & Rhodes-Kropf reference is flagged as published in 2016 in Innovation Policy and the Economy (not a 2015 NBER working paper)",
+    "summary.md recommends specific fixes but states explicitly that the document was not changed",
+    "summary.md or the spreadsheet says which version (published, preprint, abstract only) each paper was checked against"
+   ]
+  }
+ ]
+}
